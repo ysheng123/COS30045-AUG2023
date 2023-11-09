@@ -1,0 +1,106 @@
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href='./css/main.css' />
+    <link rel="stylesheet" href='./css/additional.css' />
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+    <script src="script/map.js"></script>
+    <script src="script/line_chart.js"></script>
+    <script src="script/bar.js"></script>
+    <script src="script/sankey_chart.js"></script>
+    <script src="https://unpkg.com/d3-sankey@0.12.3/dist/d3-sankey.min.js"></script>     <!-- Plugin for sankey -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous" /> <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css" />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+    <title>Migration</title>
+
+</head>
+<body>
+
+    
+    <div class ="intro"> 
+        <div >
+            <h1>Migration</h1>
+            <p>Explore New Zealand migration rate statistics on our website. Gain insights into migration trends and patterns in New Zealand. Discover the stories behind the numbers. Join us in analyzing the dynamics of New Zealand migration.</p>    
+        </div>
+    </div>
+    <div id = "bd-chart">
+        <!-- Choropleth and bar chart -->
+        <section class="rounded-section">
+            <div class = "visualisation container-fluid" >
+                <select class = "select-map"> <!-- bar chart -->
+                    <option value ="Arrival">Arrivals</option>
+                    <option value ="Departure" >Departures</option>
+                </select>
+                <p class = "brief-vis ">Explore New Zealand migration rate statistics through our interactive heatmap and detailed bar charts. Click on a region to reveal the arrival and departure rates from 2014 to 2021 for that specific region. Click outside the heatmap to access statistics on the overall migration pattern in New Zealand.</p>
+               
+                <div class="row">
+                    <div class = "col chart">
+                        <h3 class = "title-map">Arrivals to New Zealand in 2021</h3> <!-- drop-down to select direction of migration  -->
+                        <div class="map">
+                        </div>
+                    </div>
+                    <div class = "col chart">
+                        <h3 class = "title-bar">Title</h3> <!-- bar chart -->
+                        <div class="barchart">
+                        </div>
+                </div>
+                </div>
+                <section id="timeline" class="row align-items-center height-cap"> <!-- timeline --> 
+                    <button onclick="timelinePlay()"  class="col-auto p-0 px-2 m-0  "><span class="play bi bi-play-fill"></span></button> <!-- solution for timeline is inspired by https://github.com/karanshah0206/COS30045 -->
+                    <p class="col-auto py-0 px-2 m-0 leftBorder">2014</p>
+                    <input oninput="timelineUpdate()" onchange="firstChartUpdate()" type="range" name="year" id="year" class="col p-0 m-0" min="2014" max="2021" value="2021">
+                    <p class="col-auto py-0 px-2 m-0 rightBorder">2021</p>
+                    <p id="yearLabel" class="col-auto py-0 px-3 m-0">2021</p>
+                </section>
+            </div>
+        </section>
+        <!-- Sankey chart -->
+        <section class="rounded-section">
+            <div class = "visualisation container-fluid" >
+                <p class = "brief-vis ">Below is an interactive chart for the top 10 migrant population in New Zealand, ranging from the year 2014 to 2021. Hover over each link to view the number of migrant population of each nationality to their respective years and discern the change in their population over the years. Below the chart is a table containing information on the top 10 migrant population for their respective years.</p>
+                <div class = "row chart">
+                    <h3 class = "title-sankey">Top 10 migrant population at New Zealand in 2014</h3>
+                    <div class="sankey-chart">
+                    </div>
+                </div>
+                <p id="buttons"> <!-- buttons to choose which year -->
+                    <button type="button" onclick="sankeyUpdate(1)" class="sankey-1 sankey-btn btn btn-outline-secondary col active">2014</button>
+                    <button type="button" onclick="sankeyUpdate(2)" class="sankey-2 sankey-btn col btn btn-outline-secondary">2015</button>
+                    <button type="button" onclick="sankeyUpdate(3)" class="sankey-3 sankey-btn col btn btn-outline-secondary">2016</button>
+                    <button type="button" onclick="sankeyUpdate(4)" class="sankey-4 sankey-btn col btn btn-outline-secondary">2017</button>
+                    <button type="button" onclick="sankeyUpdate(5)" class="sankey-5 sankey-btn col btn btn-outline-secondary">2018</button>
+                    <button type="button" onclick="sankeyUpdate(6)" class="sankey-6 sankey-btn col btn btn-outline-secondary">2019</button>
+                    <button type="button" onclick="sankeyUpdate(7)" class="sankey-7 sankey-btn col btn btn-outline-secondary">2020</button>
+                    <button type="button" onclick="sankeyUpdate(8)" class="sankey-8 sankey-btn col btn btn-outline-secondary">2021</button>
+                </p>
+                <p id="table"></p>
+            </div>
+           
+        </section>
+        <!-- line chart -->
+        <section class="rounded-section">
+            <div class = "visualisation container-fluid" >
+                <p class = "brief-vis ">Through our interactive linechart below, discover the total arrivals of migrants of each year to New Zealand according to their visa type, from 2014 to 2021.</p>
+                <div class = "row chart">
+                    <h3 class = "title-line">Total Arrivals to New Zealand based on visa types from 2014 to 2021</h3>
+                    
+                    <div class="linechart">
+                        
+                    </div>
+                </div>
+            </div>
+        </section>
+        <footer class="container">
+            <ul class="nav justify-content-center border-bottom">
+              <li class="nav-item"><span class="nav-link px-2 text-muted"> Ngau Yong Sheng (103526703)</span></li>
+              <li class="nav-item"><span class="nav-link px-2 text-muted"> Ryan Term Zhi Jie (103515028)</span></li>
+            </ul>
+            <p class="text-center text-muted">COS30045 - Data Visualisation | AUGUST 2023 | Assignment 2</p>
+        </footer>
+    
+    </div>
+   
+    <script src="script/main.js"></script>
+</body>
